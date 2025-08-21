@@ -1,4 +1,12 @@
-import { TaskItem } from "@/types";
+import {
+  TaskItem,
+  CelebrationsMap,
+  MockRequest,
+  TimeoffType,
+  Benefit,
+  TeamMember,
+} from "@/types";
+import { Gift, Briefcase, UserPlus, DollarSign, Heart } from "lucide-react";
 
 export const tasks: TaskItem[] = [
   {
@@ -22,7 +30,7 @@ export const tasks: TaskItem[] = [
   },
 ];
 
-export const mockRequests = [
+export const mockRequests: MockRequest[] = [
   {
     id: 1,
     user: {
@@ -90,7 +98,7 @@ export const mockRequests = [
   },
 ];
 
-export const timeoffTypes = [
+export const timeoffTypes: TimeoffType[] = [
   {
     id: 1,
     title: "Annual Timeoff",
@@ -171,5 +179,132 @@ export const timeoffTypes = [
     buttonText: "Request Timeoff",
     progressColor: "stroke-yellow-500",
     bgColor: "bg-white",
+  },
+];
+
+export const celebrations: CelebrationsMap = {
+  birthdays: [
+    {
+      id: "1",
+      user: {
+        name: "John Micheal",
+        avatar:
+          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+        role: "Leader Designer",
+      },
+      date: "Jan 23",
+      icon: Gift,
+    },
+    {
+      id: "2",
+      user: {
+        name: "John Micheal",
+        avatar:
+          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+        role: "Leader Designer",
+      },
+      date: "Jan 23",
+      icon: Gift,
+    },
+    {
+      id: "3",
+      user: {
+        name: "Nonso Barn",
+        avatar:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+        role: "Front End Engineer",
+      },
+      date: "Mar 9",
+      icon: Gift,
+    },
+  ],
+  anniversary: [
+    {
+      id: "3",
+      user: {
+        name: "Sarah Johnson",
+        avatar:
+          "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+        role: "Product Manager",
+      },
+      date: "Jan 25",
+      icon: Briefcase,
+    },
+  ],
+  new_hire: [
+    {
+      id: "4",
+      user: {
+        name: "Mike Wilson",
+        avatar:
+          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+        role: "Developer",
+      },
+      date: "Jan 24",
+      icon: UserPlus,
+    },
+  ],
+};
+
+export const benefits: Benefit[] = [
+  {
+    id: "1",
+    name: "Family Healthcare Plan",
+    provider: "Leadway & Associates",
+    dependents: 3,
+    icon: Heart,
+    colorBg: "bg-blue-100",
+    colorIcon: "text-blue-600",
+    linkBg: "bg-blue-50",
+    linkColor: "text-blue-600",
+  },
+  {
+    id: "2",
+    name: "Leadway Pension",
+    provider: "Leadway & Associates",
+    dependents: 1,
+    icon: DollarSign,
+    colorBg: "bg-red-100",
+    colorIcon: "text-red-600",
+    linkBg: "bg-red-50",
+    linkColor: "text-red-600",
+  },
+];
+
+export const teamMembers: TeamMember[] = [
+  {
+    id: "1",
+    name: "John Micheal",
+    position: "Founder",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    id: "2",
+    name: "John Micheal",
+    position: "Founder",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    id: "3",
+    name: "John Micheal",
+    position: "Founder",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    id: "4",
+    name: "John Micheal",
+    position: "Founder",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    id: "5",
+    name: "John Micheal",
+    position: "Founder",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
   },
 ];

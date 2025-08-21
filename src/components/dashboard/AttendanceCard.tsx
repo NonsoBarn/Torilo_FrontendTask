@@ -1,13 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import {
-  clockIn,
-  clockOut,
-  setWorkLocation,
-  startBreak,
-  endBreak,
-} from "../../store/slices/attendanceSlice";
 import { CardContent, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -15,40 +8,19 @@ import { motion } from "framer-motion";
 import { Hourglass } from "lucide-react";
 import Modal from "../common/Modal";
 
-// Helper function to format time to 12-hour with AM/PM
-const formatTimeWithAMPM = (timeStr: string | null) => {
-  if (!timeStr) return "";
-  const [hour, minute] = timeStr.split(":").map(Number);
-  const date = new Date();
-  date.setHours(hour);
-  date.setMinutes(minute);
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
+// Custom Hooks
+import { useCurrentTime } from "@/hooks/useCurrentTime";
+import { useBreakTimer } from "@/hooks/useBreakTimer";
+import { useModalState } from "@/hooks/useModalState";
+import { useAttendanceActions } from "@/hooks/useAttendanceAction";
 
-// New helper function to convert 12-hour time to 24-hour format
-const convertTo24Hour = (time12h: string): string => {
-  const [time, modifier] = time12h.split(" ");
-  const [h, m] = time.split(":");
-  let hours = h;
-  const minutes = m;
-
-  if (modifier?.toLowerCase() === "pm" && hours !== "12") {
-    hours = (parseInt(hours, 10) + 12).toString();
-  }
-
-  if (modifier?.toLowerCase() === "am" && hours === "12") {
-    hours = "00";
-  }
-
-  return `${hours}:${minutes}`;
-};
+// Utils
+import { formatDate } from "../../utils/timeUtils";
+import { getDateString } from "../../utils/timeUtils";
+import { getModalConfig } from "../../utils/modalConfig";
+import { formatLastClockActivity } from "../../utils/attendanceHelpers";
 
 const AttendanceCard: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     currentAttendance,
     isClockIn,
@@ -59,190 +31,53 @@ const AttendanceCard: React.FC = () => {
   } = useSelector((state: RootState) => state.attendance);
   const { user } = useSelector((state: RootState) => state.auth);
 
-  // ---------- Modal State Management ----------
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [modalType, setModalType] = React.useState<
-    "clockIn" | "clockOut" | "break" | "cancelBreak" | "custom" | null
-  >(null);
-  const [isCustomTimeOpen, setIsCustomTimeOpen] = React.useState(false);
+  // Custom Hooks
+  const currentTime = useCurrentTime();
+  const breakTimer = useBreakTimer(isOnBreak);
+  const {
+    isModalOpen,
+    modalType,
+    isCustomTimeOpen,
+    openModal,
+    closeModal,
+    openCustomTime,
+    closeCustomTime,
+  } = useModalState();
+  const {
+    handleClockIn,
+    handleClockOut,
+    handleStartBreak,
+    handleEndBreak,
+    handleLocationChange,
+  } = useAttendanceActions();
 
-  // Live current time (remains in 24-hour format)
-  const [currentTime, setCurrentTime] = React.useState(
-    new Date().toLocaleTimeString("en-US", {
-      hour12: false,
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  );
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(
-        new Date().toLocaleTimeString("en-US", {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Break countdown
-  const [breakTimer, setBreakTimer] = React.useState(60);
-  const breakIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
-
-  React.useEffect(() => {
-    if (isOnBreak) {
-      setBreakTimer(60); // reset
-      breakIntervalRef.current = setInterval(() => {
-        setBreakTimer((prev) => {
-          if (prev <= 1) {
-            clearInterval(breakIntervalRef.current!);
-            dispatch(
-              endBreak(
-                new Date().toLocaleTimeString("en-US", {
-                  hour12: false,
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })
-              )
-            );
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } else {
-      if (breakIntervalRef.current) clearInterval(breakIntervalRef.current);
-    }
-    return () => {
-      if (breakIntervalRef.current) clearInterval(breakIntervalRef.current);
-    };
-  }, [isOnBreak, dispatch]);
-
-  // ---------- New Handlers to Open Modal ----------
-  const handleClockInModal = () => {
-    setIsModalOpen(true);
-    setModalType("clockIn");
-  };
-
-  const handleClockOutModal = () => {
-    setIsModalOpen(true);
-    setModalType("clockOut");
-  };
-
-  const handleBreakModal = () => {
-    setIsModalOpen(true);
-    setModalType("break");
-  };
-
-  const handleCancelBreakModal = () => {
-    setIsModalOpen(true);
-    setModalType("cancelBreak");
-  };
-
-  // ---------- Modal-specific Action Handlers ----------
+  // Modal Action Handlers
   const handlePrimaryAction = () => {
-    const now = new Date().toLocaleTimeString("en-US", {
-      hour12: false,
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    console.log(now);
-
-    if (modalType === "clockIn") {
-      dispatch(clockIn(now));
-    } else if (modalType === "clockOut") {
-      dispatch(clockOut(now));
-    } else if (modalType === "break") {
-      dispatch(startBreak(now));
-    } else if (modalType === "cancelBreak") {
-      dispatch(endBreak(now));
+    switch (modalType) {
+      case "clockIn":
+        handleClockIn();
+        break;
+      case "clockOut":
+        handleClockOut();
+        break;
+      case "break":
+        handleStartBreak();
+        break;
+      case "cancelBreak":
+        handleEndBreak();
+        break;
     }
-
-    setIsModalOpen(false);
-    setModalType(null);
+    closeModal();
   };
 
-  const handleSecondaryAction = () => {
-    setIsModalOpen(false);
-    setModalType(null);
-  };
-
-  const handleCustomTimeAction = () => {
-    setIsCustomTimeOpen(true);
-    setModalType("custom");
-  };
-
-  const handleCustomTimeActionClose = () => {
-    setIsCustomTimeOpen(false);
-    setModalType(null);
-  };
-
-  // NEW: Handler to receive custom time from Modal and dispatch the action
   const handleSaveCustomTime = (customTime: string, customDate: string) => {
-    dispatch(clockOut(customTime));
-    setIsCustomTimeOpen(false);
-    setIsModalOpen(false);
-    setModalType(null);
+    handleClockOut(customTime);
+    closeCustomTime();
+    closeModal();
   };
 
-  const handleLocationChange = (location: "Remote" | "On-Site") => {
-    dispatch(setWorkLocation(location));
-  };
-
-  const formatDate = () =>
-    new Date().toLocaleDateString("en-US", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
-  const formatLastClockActivity = () => {
-    const date = new Date().toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-
-    if (
-      lastClockInTime &&
-      (!lastClockOutTime ||
-        new Date(`2000/01/01 ${lastClockInTime}`) >
-          new Date(`2000/01/01 ${lastClockOutTime}`))
-    ) {
-      return (
-        <p className="text-xs">
-          <span className="text-xs text-gray-500 mb-1">
-            Last Clock-In Time & Date:
-          </span>
-          <br />
-          {formatTimeWithAMPM(lastClockInTime)} ({date})
-        </p>
-      );
-    }
-
-    if (lastClockOutTime) {
-      return (
-        <p className="text-xs">
-          <span className="text-xs text-gray-500 mb-1">
-            Last Clock-Out Time & Date:
-          </span>
-          <br />
-          {formatTimeWithAMPM(lastClockOutTime)} ({date})
-        </p>
-      );
-    }
-
-    return null; // Return null if neither time is available
-  };
-
-  // ---------- Clock In Card ----------
-  const clockInCard = () => (
+  // Clock In Card Component
+  const ClockInCard = () => (
     <div className="w-full max-w-sm mx-auto shadow-none bg-none">
       <CardHeader className="bg-[#6B7FE8] text-white rounded-lg pb-4">
         <div className="flex justify-between items-start">
@@ -265,7 +100,7 @@ const AttendanceCard: React.FC = () => {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="absolute top-1 bottom-1 w-1/2 rounded-md bg-black"
               animate={{
-                x: workLocation === "Remote" ? "0%" : "100%",
+                x: workLocation === "Remote" ? "0%" : "90%",
               }}
             />
             <button
@@ -288,7 +123,7 @@ const AttendanceCard: React.FC = () => {
 
           <div className="text-left">
             <p className="text-xs opacity-80 mb-1">Status</p>
-            <Badge className="bg-white text-gray-700 hover:bg-white border-0 ">
+            <Badge className="bg-white text-gray-700 hover:bg-white border-0">
               {currentAttendance?.status || "Punctual"}
             </Badge>
           </div>
@@ -321,7 +156,9 @@ const AttendanceCard: React.FC = () => {
           </div>
 
           {/* Last Activity */}
-          <div className="">{formatLastClockActivity()}</div>
+          <div>
+            {formatLastClockActivity(lastClockInTime, lastClockOutTime)}
+          </div>
         </div>
       </CardContent>
 
@@ -330,7 +167,7 @@ const AttendanceCard: React.FC = () => {
         {!isClockIn ? (
           <Button
             className="w-full bg-[#6B7FE8] hover:bg-[#5A6FD7] text-white py-5 rounded-lg text-base font-medium"
-            onClick={handleClockInModal}
+            onClick={() => openModal("clockIn")}
           >
             Clock In
           </Button>
@@ -338,13 +175,13 @@ const AttendanceCard: React.FC = () => {
           <>
             <Button
               className="w-[60%] bg-[#6B7FE8] hover:bg-[#5A6FD7] text-white py-5 rounded-lg text-base font-medium"
-              onClick={handleClockOutModal}
+              onClick={() => openModal("clockOut")}
             >
               Clock Out
             </Button>
             <Button
               className="w-[40%] bg-[#F5A623] hover:bg-[#E09612] text-white py-5 rounded-lg text-base font-medium"
-              onClick={handleBreakModal}
+              onClick={() => openModal("break")}
             >
               Take Break
             </Button>
@@ -354,8 +191,8 @@ const AttendanceCard: React.FC = () => {
     </div>
   );
 
-  // ---------- On Break Card ----------
-  const onBreakCard = () => (
+  // On Break Card Component
+  const OnBreakCard = () => (
     <div className="w-full max-w-sm mx-auto shadow-none bg-none">
       <CardHeader className="bg-[#FDEDCE] text-white rounded-lg pb-4">
         <div className="flex justify-between items-center">
@@ -395,13 +232,13 @@ const AttendanceCard: React.FC = () => {
           <>
             <Button
               className="w-full bg-[#F5A623] hover:bg-[#E09612] text-white py-6 rounded-md text-base font-medium"
-              onClick={handleCancelBreakModal}
+              onClick={() => openModal("cancelBreak")}
             >
               End Break
             </Button>
             <Button
               className="w-full bg-[#6B7FE8] hover:bg-[#5A6FD7] text-white py-6 rounded-md text-base font-medium"
-              onClick={handleClockOutModal}
+              onClick={() => openModal("clockOut")}
             >
               Clock Out
             </Button>
@@ -411,78 +248,20 @@ const AttendanceCard: React.FC = () => {
     </div>
   );
 
-  // ---------- Modal Configuration based on state ----------
-  const modalConfig = React.useMemo(() => {
-    const time = formatTimeWithAMPM(currentTime);
-    const date = formatDate();
-    const locationInfo = `${workLocation}: ${date}`;
-
-    switch (modalType) {
-      case "clockIn":
-        return {
-          header: "Confirm Clock In",
-          title: `Clock In at ${time} `,
-          subtitle: `${locationInfo}\n${time}`,
-          imageSrc: user?.avatar,
-          imageAlt: "Clock-In Image",
-          primaryButtonText: "Yes, Clock In",
-          secondaryButtonText: "No, Cancel",
-        };
-      case "clockOut":
-        return {
-          header: "Confirm Clock Out",
-          title: `Clock Out at ${time} `,
-          subtitle: `${locationInfo}\n${time}`,
-          imageSrc: user?.avatar,
-          imageAlt: "Clock-Out Image",
-          primaryButtonText: "Yes, Clock Out",
-          secondaryButtonText: "No, Cancel",
-          customTimeButtonText: "Enter a Custom Time",
-        };
-      case "break":
-        return {
-          header: "Confirm Break Start",
-          title: `Take a Break at ${time}`,
-          subtitle: `${locationInfo}\n${time}`,
-          imageSrc: user?.avatar,
-          imageAlt: "Break Image",
-          primaryButtonText: "Yes, Take a Break",
-          secondaryButtonText: "No, Continue Working",
-        };
-      case "cancelBreak":
-        return {
-          header: "Confirm Break End",
-          title: `End Break at ${time}`,
-          subtitle: `${locationInfo}\n${time}`,
-          imageSrc: user?.avatar,
-          imageAlt: "Break Image",
-          primaryButtonText: "Yes, End Break",
-          secondaryButtonText: "No, Continue Break",
-        };
-      case "custom":
-        return {
-          header: "Select Clock-Out Time",
-          title: `Take a Break at ${time}`,
-          subtitle: `${locationInfo}\n${time}`,
-          imageSrc: user?.avatar,
-          imageAlt: "Break Image",
-          primaryButtonText: "Save & Clock out",
-          secondaryButtonText: "Cancel",
-        };
-      default:
-        return null;
-    }
-  }, [modalType, currentTime, workLocation, user]);
+  // Get modal configuration
+  const modalConfig = modalType
+    ? getModalConfig(modalType, currentTime, workLocation, user?.avatar)
+    : null;
 
   return (
     <>
-      {!isOnBreak ? clockInCard() : onBreakCard()}
+      {!isOnBreak ? <ClockInCard /> : <OnBreakCard />}
 
-      {/* ---------- Render the Modal Conditionally ---------- */}
+      {/* Modal */}
       {modalConfig && (
         <Modal
           isOpen={isModalOpen}
-          onClose={handleSecondaryAction}
+          onClose={closeModal}
           header={modalConfig.header}
           title={modalConfig.title}
           subtitle={modalConfig.subtitle}
@@ -492,11 +271,13 @@ const AttendanceCard: React.FC = () => {
           onPrimaryButtonClick={handlePrimaryAction}
           secondaryButtonText={modalConfig.secondaryButtonText}
           customTimeButtonText={modalConfig.customTimeButtonText}
-          onSecondaryButtonClick={handleSecondaryAction}
-          onCustomTimeButtonClick={handleCustomTimeAction}
-          onCustomTimeButtonCloseClick={handleCustomTimeActionClose}
+          onSecondaryButtonClick={closeModal}
+          onCustomTimeButtonClick={openCustomTime}
+          onCustomTimeButtonCloseClick={closeCustomTime}
           customModalState={isCustomTimeOpen}
           onSaveCustomTime={handleSaveCustomTime}
+          clockedInTime={lastClockInTime ?? ""}
+          clockedInDate={getDateString()}
         />
       )}
     </>

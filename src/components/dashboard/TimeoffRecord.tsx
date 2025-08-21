@@ -5,7 +5,6 @@ import { mockRequests } from "@/data";
 
 const TimeoffRecord = () => {
   const [activeTab, setActiveTab] = useState("upcoming");
-
   const statusCounts = mockRequests.reduce((acc, req) => {
     acc[req.status] = (acc[req.status] || 0) + 1;
     return acc;

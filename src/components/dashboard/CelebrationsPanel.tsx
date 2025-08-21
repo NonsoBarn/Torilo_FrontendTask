@@ -1,95 +1,14 @@
-import React, { useState } from "react";
-import { ChevronDown, Gift, Briefcase, UserPlus } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card } from "../ui/card";
-
-type CelebrationType = "birthdays" | "anniversary" | "new_hire";
-
-type Celebration = {
-  id: string;
-  user: {
-    name: string;
-    avatar: string;
-    role: string;
-  };
-  date: string;
-  icon: React.ComponentType<any>;
-};
-
-type CelebrationsMap = {
-  birthdays: Celebration[];
-  anniversary: Celebration[];
-  new_hire: Celebration[];
-};
+import { celebrations } from "@/data";
+import { CelebrationType } from "@/types";
 
 const CelebrationsPanel = () => {
   const [activeTab, setActiveTab] = useState<CelebrationType>("birthdays");
   const [todayExpanded, setTodayExpanded] = useState(true);
   const [upcomingExpanded, setUpcomingExpanded] = useState(false);
-
-  const celebrations: CelebrationsMap = {
-    birthdays: [
-      {
-        id: "1",
-        user: {
-          name: "John Micheal",
-          avatar:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-          role: "Leader Designer",
-        },
-        date: "Jan 23",
-        icon: Gift,
-      },
-      {
-        id: "2",
-        user: {
-          name: "John Micheal",
-          avatar:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-          role: "Leader Designer",
-        },
-        date: "Jan 23",
-        icon: Gift,
-      },
-      {
-        id: "3",
-        user: {
-          name: "Nonso Barn",
-          avatar:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-          role: "Front End Engineer",
-        },
-        date: "Mar 9",
-        icon: Gift,
-      },
-    ],
-    anniversary: [
-      {
-        id: "3",
-        user: {
-          name: "Sarah Johnson",
-          avatar:
-            "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-          role: "Product Manager",
-        },
-        date: "Jan 25",
-        icon: Briefcase,
-      },
-    ],
-    new_hire: [
-      {
-        id: "4",
-        user: {
-          name: "Mike Wilson",
-          avatar:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-          role: "Developer",
-        },
-        date: "Jan 24",
-        icon: UserPlus,
-      },
-    ],
-  };
 
   const tabs = [
     { key: "birthdays", label: "Birthdays" },

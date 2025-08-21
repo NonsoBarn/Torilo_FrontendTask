@@ -1,17 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface AttendanceData {
-  daysPresent: number;
-  unauthorizedAbsent: number;
-  totalPerformance: number;
-}
-
-interface AttendanceSnapshotProps {
-  punctualityData?: AttendanceData;
-  attendanceData?: AttendanceData;
-  month?: string;
-}
+import { AttendanceSnapshotProps } from "@/types";
 
 const AttendanceSnapshot: React.FC<AttendanceSnapshotProps> = ({
   punctualityData = {

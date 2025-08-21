@@ -1,70 +1,128 @@
-# React + TypeScript + Vite
+# 📊 Makay App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **React + TypeScript** HR management application built with **Vite**, **shadcn/ui**, **TailwindCSS**, and **Redux Toolkit** for state management.
 
-Currently, two official plugins are available:
+This project demonstrates a scalable architecture with reusable components, efficient state handling, and clean UI design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- ⚛️ **React + TypeScript** – Component-based UI with type safety
+- ⚡ **Vite** – Lightning-fast bundler for development and build
+- 🎨 **shadcn/ui + TailwindCSS** – Pre-styled and customizable UI components
+- 🎞️ **Framer Motion** – Smooth animations and transitions
+- 📦 **Redux Toolkit** – Scalable global state management
+- 🛠️ **Custom Hooks & Utils** – Encapsulated logic for reusability
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 📂 Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/                # Reusable UI and app-specific components
+│   ├── ui/                    # shadcn/ui components
+│   │   ├── button.tsx
+|   |   ├── calender.tsx
+|   |   ├── input.tsx
+|   |   ├── popover.tsx
+|   |   ├── dialog.tsx
+│   │   ├── card.tsx
+│   │   ├── badge.tsx
+│   │   ├── avatar.tsx
+│   │   ├── tabs.tsx
+│   │   └── dropdown-menu.tsx
+│   ├── layout/                # Layout components
+│   │   └── Navbar.tsx
+│   │
+│   ├── dashboard/             # Dashboard-specific sections
+│   │   ├── AttendanceCard.tsx
+│   │   ├── TaskFeed.tsx
+│   │   ├── TimeoffSection.tsx
+│   │   ├── BenefitsSection.tsx
+│   │   ├── CelebrationsPanel.tsx
+│   │   ├── TimeoffRecord.tsx
+│   │   └── MyTeams.tsx
+│   └── common/                # Possible Shared components
+│       └──Modal.tsx
+│
+│
+├── store/                     # Redux store and slices
+│   ├── index.ts
+│   ├── middleware/
+│   │   └── localStorageMiddleware.ts
+│   ├── slices/
+│   │   ├── authSlice.ts
+│   │   └──attendanceSlice.ts
+│   │
+│
+├── hooks/                     # Custom React hooks
+│   ├── useAppSelector.ts
+│   ├── useAttendanceAction.ts
+│   ├── useBreakTimer.ts
+│   ├── useCurrentTime.ts
+│   └── useModalState.ts
+│
+├── utils/                     # Helper functions & configs
+│   ├── modalConfig.ts
+│   ├── attendanceHelper.ts
+│   └── timeUtils.ts
+│
+├── lib/                       # Generic utilities
+│   └── utils.ts
+│
+├── pages/                     # Page-level components
+│   └── Dashboard.tsx
+│
+├── types/                     # Global TypeScript types
+│   └── index.ts
+│
+└── App.tsx                    # Root component
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Getting Started
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1️⃣ Clone the repo
+
+```bash
+git clone https://github.com/NonsoBarn/Torilo_FrontendTask.git
+
 ```
-# Torilo_FrontendTask
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+
+```
+
+### 3️⃣ Run the development server
+
+```bash
+npm run dev
+
+```
+
+Visit **http://localhost:5173** to see the app in action.
+
+---
+
+## 🧩 Features
+
+- ⏱ **Attendance Tracker** – Clock-In, Clock-Out functionality
+- ⏲ **Break Timer** – Take & Cancel break functionality
+- ⏲ **Others** – Celebrations Panel, Activity Feed, Team Overview & Benefits Static Card display
+- 📦 **Custom Hooks** – Manage app state and logic (selectors, attendance, timers, modals, and time)
+
+---
+
+## 🛠️ Development Practices
+
+- **Scalable folder structure** for long-term growth
+- **Type safety** with `types/` and slice-level `types.ts`
+- **Reusable UI** through `components/ui`, `components/dashboard`, `components/layout`, and `components/common`
+- **State persistence** with `localStorageMiddleware`
+- **Custom hooks** to abstract Redux boilerplate (`useAppSelector`)

@@ -1,34 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
-import { Globe, Heart, DollarSign } from "lucide-react";
+import { Globe } from "lucide-react";
+import { benefits } from "@/data";
 
 const BenefitsSection: React.FC = () => {
-  const benefits = [
-    {
-      id: "1",
-      name: "Family Healthcare Plan",
-      provider: "Leadway & Associates",
-      dependents: 3,
-      icon: Heart,
-      colorBg: "bg-blue-100",
-      colorIcon: "text-blue-600",
-      linkBg: "bg-blue-50",
-      linkColor: "text-blue-600",
-    },
-    {
-      id: "2",
-      name: "Leadway Pension",
-      provider: "Leadway & Associates",
-      dependents: 1,
-      icon: DollarSign,
-      colorBg: "bg-red-100",
-      colorIcon: "text-red-600",
-      linkBg: "bg-red-50",
-      linkColor: "text-red-600",
-    },
-  ];
-
   return (
     <Card className="rounded-2xl border-gray-200">
       <CardHeader className="pb-4">

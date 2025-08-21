@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AttendanceRecord } from "../../types";
+import { calculateTimeDifference } from "@/utils/timeUtils";
 
 interface AttendanceState {
   currentAttendance: AttendanceRecord | null;
@@ -11,7 +12,7 @@ interface AttendanceState {
   breakEndTime: string | null;
   totalBreakTime: string;
   lastClockInTime: string | null;
-  lastClockOutTime: string | null; // NEW
+  lastClockOutTime: string | null;
 }
 
 const initialState: AttendanceState = {
@@ -25,23 +26,6 @@ const initialState: AttendanceState = {
   totalBreakTime: "00:00",
   lastClockInTime: null,
   lastClockOutTime: null,
-};
-
-// Calculating time difference
-const calculateTimeDifference = (
-  startTime: string,
-  endTime: string
-): string => {
-  const start = new Date(`1970-01-01T${startTime}:00`);
-  const end = new Date(`1970-01-01T${endTime}:00`);
-  const diff = end.getTime() - start.getTime();
-
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-  return `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}`;
 };
 
 const attendanceSlice = createSlice({

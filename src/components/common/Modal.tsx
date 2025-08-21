@@ -26,7 +26,7 @@ interface ModalProps {
   onCustomTimeButtonClick?: () => void;
   onCustomTimeButtonCloseClick?: () => void;
   customModalState?: boolean;
-  clockedInTime?: string;
+  clockedInTime?: string | undefined;
   clockedInDate?: string;
   onSaveCustomTime: (time: string, date: string) => void;
 }
@@ -47,11 +47,10 @@ const Modal: React.FC<ModalProps> = ({
   onCustomTimeButtonClick,
   onCustomTimeButtonCloseClick,
   customModalState,
-  clockedInTime = "9:30",
-  clockedInDate = "17 Jul, 2023",
+  clockedInTime,
+  clockedInDate,
   onSaveCustomTime,
 }) => {
-  // Initialize state with a default value to avoid uncontrolled component warnings
   const [clockOutTime, setClockOutTime] = useState(
     new Date().toLocaleTimeString("en-US", {
       hour: "2-digit",

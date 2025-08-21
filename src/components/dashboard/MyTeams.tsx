@@ -2,46 +2,9 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { teamMembers } from "@/data";
 
 const MyTeams: React.FC = () => {
-  const teamMembers = [
-    {
-      id: "1",
-      name: "John Micheal",
-      position: "Founder",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
-    {
-      id: "2",
-      name: "John Micheal",
-      position: "Founder",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
-    {
-      id: "3",
-      name: "John Micheal",
-      position: "Founder",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
-    {
-      id: "4",
-      name: "John Micheal",
-      position: "Founder",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
-    {
-      id: "5",
-      name: "John Micheal",
-      position: "Founder",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
-  ];
-
   return (
     <Card className="px-2">
       <CardHeader className="pb-4">

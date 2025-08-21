@@ -170,7 +170,6 @@ const TimeoffDashboard = () => {
         </div>
       </div>
 
-      {/* Cards Container - Dynamic height and responsive grid */}
       <div className="relative overflow-hidden">
         <div className="relative min-h-[280px] sm:min-h-[320px] lg:min-h-[300px] w-full">
           <motion.div
