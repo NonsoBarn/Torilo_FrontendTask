@@ -21,7 +21,7 @@ interface ModalProps {
   primaryButtonText: string;
   onPrimaryButtonClick: () => void;
   secondaryButtonText?: string;
-  customTimeButtonText?: string;
+  customTimeButtonText?: string | undefined;
   onSecondaryButtonClick?: () => void;
   onCustomTimeButtonClick?: () => void;
   onCustomTimeButtonCloseClick?: () => void;

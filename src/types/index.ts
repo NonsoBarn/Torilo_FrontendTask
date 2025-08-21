@@ -92,11 +92,6 @@ export interface AttendanceSnapshotProps {
 }
 
 // --- Mock Requests ---
-type User = {
-  name: string;
-  role: string;
-  avatar: string;
-};
 
 export type MockRequest = {
   id: number;
