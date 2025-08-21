@@ -1,0 +1,175 @@
+import { TaskItem } from "@/types";
+
+export const tasks: TaskItem[] = [
+  {
+    id: "1",
+    description: "Create the New Onboarding Process",
+    date: "Today",
+    action: "Mark Completed",
+    comment: "Review with HR department.",
+  },
+  {
+    id: "2",
+    description: "Add New Employee",
+    date: "Today",
+    action: "Mark Completed",
+  },
+  {
+    id: "3",
+    description: "Create New Design",
+    date: "Today",
+    action: "Mark Completed",
+  },
+];
+
+export const mockRequests = [
+  {
+    id: 1,
+    user: {
+      name: "John Micheal",
+      role: "Leader Designer",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+    startDate: "Jan 23",
+    endDate: "Jan 25, 2022",
+    days: 2,
+    status: "upcoming",
+  },
+  {
+    id: 2,
+    user: {
+      name: "John Micheal",
+      role: "Leader Designer",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+    startDate: "Jan 23",
+    endDate: "Jan 25, 2022",
+    days: 2,
+    status: "upcoming",
+  },
+  {
+    id: 3,
+    user: {
+      name: "John Micheal",
+      role: "Leader Designer",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+    startDate: "Jan 23",
+    endDate: "Jan 25, 2022",
+    days: 2,
+    status: "upcoming",
+  },
+  {
+    id: 4,
+    user: {
+      name: "John Micheal",
+      role: "Leader Designer",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+    startDate: "Jan 23",
+    endDate: "Jan 25, 2022",
+    days: 2,
+    status: "ongoing",
+  },
+  {
+    id: 5,
+    user: {
+      name: "John Micheal",
+      role: "Leader Designer",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
+    startDate: "Jan 23",
+    endDate: "Jan 25, 2022",
+    days: 2,
+    status: "ongoing",
+  },
+];
+
+export const timeoffTypes = [
+  {
+    id: 1,
+    title: "Annual Timeoff",
+    days: 20,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-blue-100 text-blue-600 hover:bg-blue-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-blue-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 2,
+    title: "Sick Timeoff",
+    days: 28,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-cyan-100 text-cyan-600 hover:bg-cyan-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-cyan-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 3,
+    title: "Timeoff",
+    days: 10,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-green-100 text-green-600 hover:bg-green-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-green-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 4,
+    title: "Remote Work",
+    days: 15,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-orange-100 text-orange-600 hover:bg-orange-200",
+    buttonText: "Request",
+    progressColor: "stroke-orange-500",
+    bgColor: "bg-white",
+  },
+  // Second page of cards
+  {
+    id: 5,
+    title: "Maternity Leave",
+    days: 12,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-purple-100 text-purple-600 hover:bg-purple-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-purple-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 6,
+    title: "Paternity Leave",
+    days: 8,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-indigo-100 text-indigo-600 hover:bg-indigo-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-indigo-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 7,
+    title: "Pet Care",
+    days: 30,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-pink-100 text-pink-600 hover:bg-pink-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-pink-500",
+    bgColor: "bg-white",
+  },
+  {
+    id: 8,
+    title: "Study Leave",
+    days: 10,
+    subtitle: "Paid Timeoff",
+    buttonColor: "bg-yellow-100 text-yellow-600 hover:bg-yellow-200",
+    buttonText: "Request Timeoff",
+    progressColor: "stroke-yellow-500",
+    bgColor: "bg-white",
+  },
+];
