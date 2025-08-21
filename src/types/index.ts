@@ -1,22 +1,22 @@
 import React from "react";
 import { LucideIcon } from "lucide-react";
-// export interface User {
-//   id: string;
-//   name: string;
-//   email: string;
-//   avatar: string;
-//   role: string;
-//   department?: string;
-// }
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  role: string;
+  department?: string;
+}
 
-// export interface AttendanceRecord {
-//   date: string;
-//   clockIn: string;
-//   clockOut: string;
-//   workLocation: "Remote" | "On-Site";
-//   status: "Present" | "Absent" | "Late" | "On Break";
-//   totalHours: string;
-// }
+export interface AttendanceRecord {
+  date: string;
+  clockIn: string;
+  clockOut: string;
+  workLocation: "Remote" | "On-Site";
+  status: "Present" | "Absent" | "Late" | "On Break";
+  totalHours: string;
+}
 
 export interface TaskItem {
   id: string;

@@ -71,6 +71,8 @@ const AttendanceCard: React.FC = () => {
   };
 
   const handleSaveCustomTime = (customTime: string, customDate: string) => {
+    const date = customDate;
+    console.log(date);
     handleClockOut(customTime);
     closeCustomTime();
     closeModal();

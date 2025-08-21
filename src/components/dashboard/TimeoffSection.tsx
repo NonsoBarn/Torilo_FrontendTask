@@ -4,6 +4,11 @@ import { Card } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { timeoffTypes } from "@/data";
 
+interface HalfMoonProgressProps {
+  value: number;
+  color: string;
+}
+
 const TimeoffDashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -49,7 +54,7 @@ const TimeoffDashboard = () => {
     }
   };
 
-  const goToPage = (page) => {
+  const goToPage = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
 
@@ -59,7 +64,10 @@ const TimeoffDashboard = () => {
     "Pet Time",
   ];
 
-  const HalfMoonProgress = ({ value, color }) => {
+  const HalfMoonProgress: React.FC<HalfMoonProgressProps> = ({
+    value,
+    color,
+  }) => {
     const radius = 50;
     const strokeWidth = 8;
     const normalizedRadius = radius - strokeWidth * 2;

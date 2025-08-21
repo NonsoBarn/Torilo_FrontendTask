@@ -40,6 +40,7 @@ export const getModalConfig = (
       imageAlt: "Break Image",
       primaryButtonText: "Yes, Take a Break",
       secondaryButtonText: "No, Continue Working",
+      customTimeButtonText: undefined,
     },
     cancelBreak: {
       header: "Confirm Break End",
@@ -49,6 +50,7 @@ export const getModalConfig = (
       imageAlt: "Break Image",
       primaryButtonText: "Yes, End Break",
       secondaryButtonText: "No, Continue Break",
+      customTimeButtonText: undefined,
     },
     custom: {
       header: "Select Clock-Out Time",
@@ -58,6 +60,7 @@ export const getModalConfig = (
       imageAlt: "Break Image",
       primaryButtonText: "Save & Clock out",
       secondaryButtonText: "Cancel",
+      customTimeButtonText: undefined,
     },
   };
 
