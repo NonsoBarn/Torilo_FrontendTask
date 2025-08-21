@@ -34,6 +34,8 @@ export const mockRequests: MockRequest[] = [
   {
     id: 1,
     user: {
+      id: "user-1",
+      email: "john.micheal@example.com",
       name: "John Micheal",
       role: "Leader Designer",
       avatar:
@@ -47,6 +49,8 @@ export const mockRequests: MockRequest[] = [
   {
     id: 2,
     user: {
+      id: "user-2",
+      email: "john.micheal@example.com",
       name: "John Micheal",
       role: "Leader Designer",
       avatar:
@@ -60,6 +64,8 @@ export const mockRequests: MockRequest[] = [
   {
     id: 3,
     user: {
+      id: "user-3",
+      email: "john.micheal@example.com",
       name: "John Micheal",
       role: "Leader Designer",
       avatar:
@@ -73,6 +79,8 @@ export const mockRequests: MockRequest[] = [
   {
     id: 4,
     user: {
+      id: "user-4",
+      email: "john.micheal@example.com",
       name: "John Micheal",
       role: "Leader Designer",
       avatar:
@@ -86,6 +94,8 @@ export const mockRequests: MockRequest[] = [
   {
     id: 5,
     user: {
+      id: "user-5",
+      email: "john.micheal@example.com",
       name: "John Micheal",
       role: "Leader Designer",
       avatar:
