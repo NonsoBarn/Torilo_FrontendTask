@@ -85,6 +85,18 @@ export interface AttendanceData {
   totalPerformance: number;
 }
 
+export interface AttendanceState {
+  currentAttendance: AttendanceRecord | null;
+  attendanceHistory: AttendanceRecord[];
+  isClockIn: boolean;
+  workLocation: "Remote" | "On-Site";
+  isOnBreak: boolean;
+  breakStartTime: string | null;
+  breakEndTime: string | null;
+  lastClockInTime: string | null;
+  lastClockOutTime: string | null;
+}
+
 export interface AttendanceSnapshotProps {
   punctualityData?: AttendanceData;
   attendanceData?: AttendanceData;

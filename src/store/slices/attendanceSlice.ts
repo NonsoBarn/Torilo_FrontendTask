@@ -1,19 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AttendanceRecord } from "../../types";
+import { AttendanceState } from "../../types";
 import { calculateTimeDifference } from "@/utils/timeUtils";
-
-interface AttendanceState {
-  currentAttendance: AttendanceRecord | null;
-  attendanceHistory: AttendanceRecord[];
-  isClockIn: boolean;
-  workLocation: "Remote" | "On-Site";
-  isOnBreak: boolean;
-  breakStartTime: string | null;
-  breakEndTime: string | null;
-  totalBreakTime: string;
-  lastClockInTime: string | null;
-  lastClockOutTime: string | null;
-}
 
 const initialState: AttendanceState = {
   currentAttendance: null,
@@ -23,7 +10,6 @@ const initialState: AttendanceState = {
   isOnBreak: false,
   breakStartTime: null,
   breakEndTime: null,
-  totalBreakTime: "00:00",
   lastClockInTime: null,
   lastClockOutTime: null,
 };
@@ -56,7 +42,7 @@ const attendanceSlice = createSlice({
       if (state.currentAttendance) {
         state.currentAttendance.clockOut = action.payload;
 
-        // Calculate total hours worked
+        // Calculating total hours worked (Just incase employees total daily working hours needs to be tracked or displayed)
         if (state.currentAttendance.clockIn) {
           state.currentAttendance.totalHours = calculateTimeDifference(
             state.currentAttendance.clockIn,
@@ -64,7 +50,6 @@ const attendanceSlice = createSlice({
           );
         }
 
-        // Add to history
         state.attendanceHistory.push({ ...state.currentAttendance });
       }
     },
@@ -93,29 +78,7 @@ const attendanceSlice = createSlice({
         state.isOnBreak = false;
         state.breakEndTime = action.payload;
 
-        // Calculate break duration and add to total break time
-        const breakDuration = calculateTimeDifference(
-          state.breakStartTime,
-          action.payload
-        );
-
-        // Add this break duration to total break time
-        const currentTotal = state.totalBreakTime;
-        const [currentHours, currentMinutes] = currentTotal
-          .split(":")
-          .map(Number);
-        const [breakHours, breakMinutes] = breakDuration.split(":").map(Number);
-
-        const totalMinutes =
-          currentHours * 60 + currentMinutes + (breakHours * 60 + breakMinutes);
-        const newHours = Math.floor(totalMinutes / 60);
-        const newMinutes = totalMinutes % 60;
-
-        state.totalBreakTime = `${newHours
-          .toString()
-          .padStart(2, "0")}:${newMinutes.toString().padStart(2, "0")}`;
-
-        // Reset break times
+        // Reseting break times
         state.breakStartTime = null;
         state.breakEndTime = null;
 
@@ -146,7 +109,6 @@ const attendanceSlice = createSlice({
       state.isOnBreak = false;
       state.breakStartTime = null;
       state.breakEndTime = null;
-      state.totalBreakTime = "00:00";
       state.lastClockInTime = null;
       state.lastClockOutTime = null;
     },
